@@ -1,0 +1,114 @@
+plugins {
+    id 'java'
+    id 'org.springframework.boot' version '3.4.1'
+    id 'io.spring.dependency-management' version '1.1.7'
+    id 'nu.studer.jooq' version '8.2'
+}
+
+group = 'com.arijit'
+version = '0.0.1-SNAPSHOT'
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(21)
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+
+    implementation 'org.projectlombok:lombok:1.18.34'
+    implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+    testImplementation 'org.springframework.security:spring-security-test'
+    annotationProcessor 'org.projectlombok:lombok:1.18.34'
+
+    jooqGenerator "org.postgresql:postgresql"
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.springframework.boot:spring-boot-starter-data-rest'
+    implementation 'org.springframework.boot:spring-boot-starter-integration'
+    implementation 'org.springframework.boot:spring-boot-starter-jooq'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.integration:spring-integration-http'
+    implementation 'org.springframework.integration:spring-integration-jpa'
+    implementation 'org.springframework.integration:spring-integration-kafka'
+    implementation 'org.springframework.kafka:spring-kafka'
+    implementation 'org.springframework.security:spring-security-messaging'
+
+    developmentOnly 'org.springframework.boot:spring-boot-devtools'
+
+    runtimeOnly 'org.postgresql:postgresql'
+
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'org.springframework.integration:spring-integration-test'
+    testImplementation 'org.springframework.kafka:spring-kafka-test'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+
+
+    implementation 'org.liquibase:liquibase-core:4.29.0'
+    implementation 'io.jsonwebtoken:jjwt-jackson:0.12.5'
+    implementation 'io.jsonwebtoken:jjwt-impl:0.12.6'
+    implementation 'io.jsonwebtoken:jjwt-api:0.12.3'
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
+}
+
+
+jooq {
+    configurations {
+
+        main {
+            generateSchemaSourceOnCompilation = false
+            // Configure the database connection here
+            generationTool {
+                jdbc {
+                    driver = "org.postgresql.Driver"
+                    url = "jdbc:postgresql://localhost:5432/restaurant"
+                    user = "ari"
+                    password = "pass"
+
+                    // You can also pass user/password and other JDBC properties in the optional properties tag:
+                    properties {
+                        property {
+                            key = 'ssl'
+                            value = 'false'
+                        }
+                    }
+                }
+                generator {
+                    name = 'org.jooq.codegen.DefaultGenerator'
+                    database {
+
+                        name = "org.jooq.meta.postgres.PostgresDatabase"
+                        excludes = "DATABASECHANGELOG|DATABASECHANGELOGLOCK"
+                        inputSchema = "public"
+                    }
+
+                    // Generation flags: See advanced configuration properties
+                    generate {
+                        pojos = true // Generate plain Java objects (POJOs)
+                        daos = true // Generate DAO classes
+                        records = true // Generate record classes
+                        fluentSetters = true // Use fluent-style setters in POJOs
+                        interfaces = false// Generate interfaces for POJOs
+                        springAnnotations = true // Add Spring annotations to DAOs
+                        javaTimeTypes = true // Use java.time instead of java.sql types
+                        constructorPropertiesAnnotation = true
+                        deprecated = false
+                        generatedAnnotation = true
+                    }
+                    target {
+                        packageName = "com.arijit.restaurant"
+                        directory = "src/generated-db-entities/java/"
+                    }
+                }
+            }
+        }
+    }
+}
