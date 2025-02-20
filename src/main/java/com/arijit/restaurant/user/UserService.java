@@ -3,7 +3,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -30,7 +29,7 @@ public class UserService implements UserDetailsService {
 //        return "User Added Successfully";
 //    }
 
-    public User findOrCreateUser(String email, String name, String role) {
+    public User findOrCreateUser(String email, String name, String role, String token) {
         Optional<User> optionalUser = repository.findByEmail(email);
         if (optionalUser.isPresent()) {
             return optionalUser.get(); // Return existing user
@@ -40,6 +39,7 @@ public class UserService implements UserDetailsService {
         newUser.setEmail(email);
         newUser.setName(name);
         newUser.setRoles(role);
+        newUser.setToken(token);
         return repository.save(newUser);
     }
 }

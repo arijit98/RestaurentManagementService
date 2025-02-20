@@ -17,7 +17,7 @@ public class User {
     private String name;
     private String password;
 
-    private String roles; // "ADMIN" or "STAFF"
-
+    private String roles;// "ADMIN" or "STAFF"
+    private String token;
     // Getters and Setters
 }

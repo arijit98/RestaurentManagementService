@@ -4,6 +4,8 @@ import lombok.RequiredArgsConstructor;
 import org.jooq.DSLContext;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 import static com.arijit.restaurant.Tables.ORDERS;
@@ -29,5 +31,28 @@ public class OrderRepository {
                 .set(ORDERS.TOTAL_PRICE, order.totalPrice())
                 .execute();
 
+    }
+
+//    public Order update(Integer tableId, Order order) {}
+
+    public void update(UUID orderId, OrderStatus status) {
+        dslContext.update(ORDERS)
+                .set(ORDERS.STATUS, status.name())
+                .where(ORDERS.ID.eq(orderId))
+                .execute();
+
+    }
+
+    public Optional<Order> findById(UUID orderId) {
+        return dslContext.selectFrom(ORDERS)
+                .where(ORDERS.ID.eq(orderId))
+                .fetchOptionalInto(Order.class);
+    }
+
+    public List<Order> findAll() {
+        return dslContext.selectFrom(ORDERS)
+                .stream()
+                .map(Order.class::cast)
+                .toList();
     }
 }
