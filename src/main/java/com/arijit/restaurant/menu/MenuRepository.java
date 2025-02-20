@@ -39,6 +39,12 @@ public class MenuRepository {
                 .getValue(MENU.ID);
     }
 
+    public List<MenuItem> findByIds(List<UUID> ids) {
+        return dslContext.selectFrom(MENU).where(MENU.ID.in(ids)).stream()
+                .map(this::mapToMenuItems)
+                .toList();
+    }
+
     private MenuItem mapToMenuItems(MenuRecord menuRecord) {
         return MenuItem.builder().itemId(
                 menuRecord.getId()).itemName(
@@ -46,4 +52,6 @@ public class MenuRepository {
                 menuRecord.getDescription()).itemPrice(
                 menuRecord.getPrice()).build();
     }
+
+
 }

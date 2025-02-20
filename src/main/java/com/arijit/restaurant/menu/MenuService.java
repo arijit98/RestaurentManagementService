@@ -22,4 +22,7 @@ public class MenuService {
         return menuItem;
     }
 
+    public List<MenuItem> getMenuDetails(List<UUID> items) {
+        return menuRepository.findByIds(items);
+    }
 }

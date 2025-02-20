@@ -1,4 +1,13 @@
 package com.arijit.restaurant.order;
 
-public record OrderResponse() {
+import lombok.Builder;
+
+import java.util.UUID;
+
+@Builder
+public record OrderResponse(
+        UUID id,
+        Double totalPrice,
+        OrderStatus orderStatus
+) {
 }
