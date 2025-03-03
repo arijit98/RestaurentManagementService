@@ -28,21 +28,25 @@ public class OrderItems implements Serializable {
 
     private UUID orderId;
     private UUID menuId;
+    private Integer quantity;
 
     public OrderItems() {}
 
     public OrderItems(OrderItems value) {
         this.orderId = value.orderId;
         this.menuId = value.menuId;
+        this.quantity = value.quantity;
     }
 
-    @ConstructorProperties({ "orderId", "menuId" })
+    @ConstructorProperties({ "orderId", "menuId", "quantity" })
     public OrderItems(
         UUID orderId,
-        UUID menuId
+        UUID menuId,
+        Integer quantity
     ) {
         this.orderId = orderId;
         this.menuId = menuId;
+        this.quantity = quantity;
     }
 
     /**
@@ -75,6 +79,21 @@ public class OrderItems implements Serializable {
         return this;
     }
 
+    /**
+     * Getter for <code>public.order_items.quantity</code>.
+     */
+    public Integer getQuantity() {
+        return this.quantity;
+    }
+
+    /**
+     * Setter for <code>public.order_items.quantity</code>.
+     */
+    public OrderItems setQuantity(Integer quantity) {
+        this.quantity = quantity;
+        return this;
+    }
+
     @Override
     public boolean equals(Object obj) {
         if (this == obj)
@@ -96,6 +115,12 @@ public class OrderItems implements Serializable {
         }
         else if (!this.menuId.equals(other.menuId))
             return false;
+        if (this.quantity == null) {
+            if (other.quantity != null)
+                return false;
+        }
+        else if (!this.quantity.equals(other.quantity))
+            return false;
         return true;
     }
 
@@ -105,6 +130,7 @@ public class OrderItems implements Serializable {
         int result = 1;
         result = prime * result + ((this.orderId == null) ? 0 : this.orderId.hashCode());
         result = prime * result + ((this.menuId == null) ? 0 : this.menuId.hashCode());
+        result = prime * result + ((this.quantity == null) ? 0 : this.quantity.hashCode());
         return result;
     }
 
@@ -114,6 +140,7 @@ public class OrderItems implements Serializable {
 
         sb.append(orderId);
         sb.append(", ").append(menuId);
+        sb.append(", ").append(quantity);
 
         sb.append(")");
         return sb.toString();

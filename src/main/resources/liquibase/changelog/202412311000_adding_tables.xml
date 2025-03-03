@@ -19,7 +19,8 @@
             CREATE TABLE order_items
             (
                 order_id uuid not null,
-                menu_id  uuid not null
+                menu_id  uuid not null,
+                quantity int not null
             );
 
             CREATE TABLE menu
