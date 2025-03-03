@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 import java.time.Clock;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 import static com.arijit.restaurant.Tables.MENU;
@@ -18,9 +19,18 @@ public class MenuRepository {
     private final DSLContext dslContext;
     private final Clock clock;
 
-    public List<MenuItem> findAll() {
+    
+    public List<MenuItem> findAllAvailableMenu() {
         return dslContext.selectFrom(MENU)
                 .where(MENU.STATUS.eq("AVAILABLE"))
+                .stream()
+                .map(this::mapToMenuItems)
+                .toList();
+    }
+
+    public List<MenuItem> findAllByIds(Set<UUID> ids) {
+        return dslContext.selectFrom(MENU)
+                .where(MENU.ID.in(ids))
                 .stream()
                 .map(this::mapToMenuItems)
                 .toList();

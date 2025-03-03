@@ -14,11 +14,11 @@ import javax.annotation.processing.Generated;
 
 import org.jooq.Field;
 import org.jooq.ForeignKey;
-import org.jooq.Function2;
+import org.jooq.Function3;
 import org.jooq.Name;
 import org.jooq.Record;
 import org.jooq.Records;
-import org.jooq.Row2;
+import org.jooq.Row3;
 import org.jooq.Schema;
 import org.jooq.SelectField;
 import org.jooq.Table;
@@ -66,6 +66,11 @@ public class OrderItems extends TableImpl<OrderItemsRecord> {
      * The column <code>public.order_items.menu_id</code>.
      */
     public final TableField<OrderItemsRecord, UUID> MENU_ID = createField(DSL.name("menu_id"), SQLDataType.UUID.nullable(false), this, "");
+
+    /**
+     * The column <code>public.order_items.quantity</code>.
+     */
+    public final TableField<OrderItemsRecord, Integer> QUANTITY = createField(DSL.name("quantity"), SQLDataType.INTEGER.nullable(false), this, "");
 
     private OrderItems(Name alias, Table<OrderItemsRecord> aliased) {
         this(alias, aliased, null);
@@ -145,18 +150,18 @@ public class OrderItems extends TableImpl<OrderItemsRecord> {
     }
 
     // -------------------------------------------------------------------------
-    // Row2 type methods
+    // Row3 type methods
     // -------------------------------------------------------------------------
 
     @Override
-    public Row2<UUID, UUID> fieldsRow() {
-        return (Row2) super.fieldsRow();
+    public Row3<UUID, UUID, Integer> fieldsRow() {
+        return (Row3) super.fieldsRow();
     }
 
     /**
      * Convenience mapping calling {@link SelectField#convertFrom(Function)}.
      */
-    public <U> SelectField<U> mapping(Function2<? super UUID, ? super UUID, ? extends U> from) {
+    public <U> SelectField<U> mapping(Function3<? super UUID, ? super UUID, ? super Integer, ? extends U> from) {
         return convertFrom(Records.mapping(from));
     }
 
@@ -164,7 +169,7 @@ public class OrderItems extends TableImpl<OrderItemsRecord> {
      * Convenience mapping calling {@link SelectField#convertFrom(Class,
      * Function)}.
      */
-    public <U> SelectField<U> mapping(Class<U> toType, Function2<? super UUID, ? super UUID, ? extends U> from) {
+    public <U> SelectField<U> mapping(Class<U> toType, Function3<? super UUID, ? super UUID, ? super Integer, ? extends U> from) {
         return convertFrom(toType, Records.mapping(from));
     }
 }

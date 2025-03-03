@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.jooq.impl.QOM;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -11,10 +12,6 @@ import java.util.UUID;
 @RequestMapping(value = "/api/v1/orders")
 @RequiredArgsConstructor
 public class OrderController {
-
-//    POST /api/orders: Place a new order.
-//            GET /api/orders/{tableId}: Get all orders for a table.
-//    PUT /api/orders/{id}: Update the status of an order.
 
     private OrderService orderService;
 
@@ -25,7 +22,13 @@ public class OrderController {
 
     @PostMapping
     public void addOrder(@RequestBody OrderRequest request) {
-        orderService.addOrder();
+        Order order = Order.builder()
+                .tableId(request.tableId())
+                .status(OrderStatus.PENDING)
+                .createdAt(LocalDateTime.now())
+                .updatedAt(LocalDateTime.now())
+                .build();
+        orderService.addOrder(order, request.menuItems());
     }
 
     @PutMapping("/id")
