@@ -1,26 +1,34 @@
 package com.arijit.restaurant.user;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class UserService {
 
-    @Autowired
-    private UserRepository repository;
+    private final UserRepository repository;
+    private final PasswordEncoder passwordEncoder;
 
-    public User findOrCreateUser(String email, String name, String role) {
-        Optional<User> optionalUser = repository.findByEmail(email);
+
+    public Optional<User> findByUsername(String username) {
+        return repository.findByName(username);
+    }
+
+    public User createUser(String name, String password, String role) {
+        Optional<User> optionalUser = repository.findByName(name);
         if (optionalUser.isPresent()) {
             return optionalUser.get(); // Return existing user
         }
         // Create new user
         User newUser = new User();
-        newUser.setEmail(email);
+        newUser.setPassword(passwordEncoder.encode(password));
         newUser.setName(name);
         newUser.setRoles(role);
         return repository.save(newUser);
     }
+
 }

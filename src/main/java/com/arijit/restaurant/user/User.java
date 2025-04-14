@@ -9,15 +9,9 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @Column(unique = true, nullable = false)
+    @Column(unique = true, length = 50)
     private String email;
-
-    @Column(nullable = false)
     private String name;
     private String password;
-
-    private String roles; // "ADMIN" or "STAFF"
-
-    // Getters and Setters
+    private String roles;
 }

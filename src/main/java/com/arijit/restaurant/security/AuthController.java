@@ -1,8 +1,13 @@
 package com.arijit.restaurant.security;
 
+import com.arijit.restaurant.user.User;
+import com.arijit.restaurant.user.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/v1/auth")
@@ -10,18 +15,26 @@ import org.springframework.web.bind.annotation.*;
 public class AuthController {
 
     private final JWTUtil jwtUtil;
+    private final UserService userService;
+    private final PasswordEncoder passwordEncoder;
 
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestParam String username, @RequestParam String password) {
-        // Hardcoded users (replace with actual user authentication logic)
-        if ("user".equals(username) && "password".equals(password)) {
-            String token = jwtUtil.generateToken(username, "ROLE_USER");
-            return ResponseEntity.ok(token);
-        } else if ("admin".equals(username) && "password".equals(password)) {
-            String token = jwtUtil.generateToken(username, "ROLE_ADMIN");
-            return ResponseEntity.ok(token);
-        } else {
-            return ResponseEntity.status(401).body("Invalid credentials");
+    public ResponseEntity<?> login(@RequestBody LoginRequest loginRequest) {
+        Optional<User> userOptional = userService.findByUsername(loginRequest.getUsername());
+
+        if (userOptional.isPresent()) {
+            User user = userOptional.get();
+            if (passwordEncoder.matches(loginRequest.getPassword(), user.getPassword())) {
+                String token = jwtUtil.generateToken(user.getName(), user.getRoles());
+                return ResponseEntity.ok(token);
+            }
         }
+        return ResponseEntity.status(401).body("Invalid credentials");
+    }
+
+    @PostMapping("/register")
+    public ResponseEntity<?> register(@RequestParam String username, @RequestParam String password, @RequestParam String role) {
+        User user = userService.createUser(username, password, role);
+        return ResponseEntity.ok("User registered with ID: " + user.getId());
     }
 }
