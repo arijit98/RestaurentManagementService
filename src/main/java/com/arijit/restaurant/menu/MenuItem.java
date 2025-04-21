@@ -16,4 +16,6 @@ public class MenuItem {
     private String itemName;
     private String itemDescription;
     private Double itemPrice;
+    private UUID restaurantId;
+
 }

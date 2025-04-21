@@ -25,7 +25,7 @@ public class MenuRepositoryITest {
 
     @Test
     public void findAll_retrievesAllMenus() {
-        List<MenuItem> menus = menuRepository.findAllAvailableMenu();
+        List<MenuItem> menus = menuRepository.findAllAvailableMenu(UUID.fromString("123e4567-e89b-12d3-a456-426614174099"));
 
         // Then
         assertNotNull(menus);

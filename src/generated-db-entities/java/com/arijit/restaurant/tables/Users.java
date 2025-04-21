@@ -69,7 +69,7 @@ public class Users extends TableImpl<UsersRecord> {
     /**
      * The column <code>public.users.email</code>.
      */
-    public final TableField<UsersRecord, String> EMAIL = createField(DSL.name("email"), SQLDataType.VARCHAR(255).nullable(false), this, "");
+    public final TableField<UsersRecord, String> EMAIL = createField(DSL.name("email"), SQLDataType.VARCHAR(50), this, "");
 
     /**
      * The column <code>public.users.name</code>.

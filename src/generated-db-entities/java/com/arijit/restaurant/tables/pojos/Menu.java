@@ -34,6 +34,7 @@ public class Menu implements Serializable {
     private String description;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
+    private UUID restaurantId;
 
     public Menu() {}
 
@@ -45,9 +46,10 @@ public class Menu implements Serializable {
         this.description = value.description;
         this.createdAt = value.createdAt;
         this.updatedAt = value.updatedAt;
+        this.restaurantId = value.restaurantId;
     }
 
-    @ConstructorProperties({ "id", "itemName", "status", "price", "description", "createdAt", "updatedAt" })
+    @ConstructorProperties({ "id", "itemName", "status", "price", "description", "createdAt", "updatedAt", "restaurantId" })
     public Menu(
         UUID id,
         String itemName,
@@ -55,7 +57,8 @@ public class Menu implements Serializable {
         Double price,
         String description,
         LocalDateTime createdAt,
-        LocalDateTime updatedAt
+        LocalDateTime updatedAt,
+        UUID restaurantId
     ) {
         this.id = id;
         this.itemName = itemName;
@@ -64,6 +67,7 @@ public class Menu implements Serializable {
         this.description = description;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
+        this.restaurantId = restaurantId;
     }
 
     /**
@@ -171,6 +175,21 @@ public class Menu implements Serializable {
         return this;
     }
 
+    /**
+     * Getter for <code>public.menu.restaurant_id</code>.
+     */
+    public UUID getRestaurantId() {
+        return this.restaurantId;
+    }
+
+    /**
+     * Setter for <code>public.menu.restaurant_id</code>.
+     */
+    public Menu setRestaurantId(UUID restaurantId) {
+        this.restaurantId = restaurantId;
+        return this;
+    }
+
     @Override
     public boolean equals(Object obj) {
         if (this == obj)
@@ -222,6 +241,12 @@ public class Menu implements Serializable {
         }
         else if (!this.updatedAt.equals(other.updatedAt))
             return false;
+        if (this.restaurantId == null) {
+            if (other.restaurantId != null)
+                return false;
+        }
+        else if (!this.restaurantId.equals(other.restaurantId))
+            return false;
         return true;
     }
 
@@ -236,6 +261,7 @@ public class Menu implements Serializable {
         result = prime * result + ((this.description == null) ? 0 : this.description.hashCode());
         result = prime * result + ((this.createdAt == null) ? 0 : this.createdAt.hashCode());
         result = prime * result + ((this.updatedAt == null) ? 0 : this.updatedAt.hashCode());
+        result = prime * result + ((this.restaurantId == null) ? 0 : this.restaurantId.hashCode());
         return result;
     }
 
@@ -250,6 +276,7 @@ public class Menu implements Serializable {
         sb.append(", ").append(description);
         sb.append(", ").append(createdAt);
         sb.append(", ").append(updatedAt);
+        sb.append(", ").append(restaurantId);
 
         sb.append(")");
         return sb.toString();

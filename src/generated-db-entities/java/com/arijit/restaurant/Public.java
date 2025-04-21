@@ -7,6 +7,7 @@ package com.arijit.restaurant;
 import com.arijit.restaurant.tables.Menu;
 import com.arijit.restaurant.tables.OrderItems;
 import com.arijit.restaurant.tables.Orders;
+import com.arijit.restaurant.tables.Restaurant;
 import com.arijit.restaurant.tables.Users;
 
 import java.util.Arrays;
@@ -55,6 +56,11 @@ public class Public extends SchemaImpl {
     public final Orders ORDERS = Orders.ORDERS;
 
     /**
+     * The table <code>public.restaurant</code>.
+     */
+    public final Restaurant RESTAURANT = Restaurant.RESTAURANT;
+
+    /**
      * The table <code>public.users</code>.
      */
     public final Users USERS = Users.USERS;
@@ -78,6 +84,7 @@ public class Public extends SchemaImpl {
             Menu.MENU,
             OrderItems.ORDER_ITEMS,
             Orders.ORDERS,
+            Restaurant.RESTAURANT,
             Users.USERS
         );
     }

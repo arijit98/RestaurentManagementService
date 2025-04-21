@@ -4,11 +4,16 @@
 package com.arijit.restaurant;
 
 
+import com.arijit.restaurant.tables.Menu;
+import com.arijit.restaurant.tables.Restaurant;
 import com.arijit.restaurant.tables.Users;
+import com.arijit.restaurant.tables.records.MenuRecord;
+import com.arijit.restaurant.tables.records.RestaurantRecord;
 import com.arijit.restaurant.tables.records.UsersRecord;
 
 import javax.annotation.processing.Generated;
 
+import org.jooq.ForeignKey;
 import org.jooq.TableField;
 import org.jooq.UniqueKey;
 import org.jooq.impl.DSL;
@@ -33,6 +38,13 @@ public class Keys {
     // UNIQUE and PRIMARY KEY definitions
     // -------------------------------------------------------------------------
 
+    public static final UniqueKey<RestaurantRecord> RESTAURANT_PKEY = Internal.createUniqueKey(Restaurant.RESTAURANT, DSL.name("restaurant_pkey"), new TableField[] { Restaurant.RESTAURANT.ID }, true);
     public static final UniqueKey<UsersRecord> UK6DOTKOTT2KJSP8VW4D0M25FB7 = Internal.createUniqueKey(Users.USERS, DSL.name("uk6dotkott2kjsp8vw4d0m25fb7"), new TableField[] { Users.USERS.EMAIL }, true);
     public static final UniqueKey<UsersRecord> USERS_PKEY = Internal.createUniqueKey(Users.USERS, DSL.name("users_pkey"), new TableField[] { Users.USERS.ID }, true);
+
+    // -------------------------------------------------------------------------
+    // FOREIGN KEY definitions
+    // -------------------------------------------------------------------------
+
+    public static final ForeignKey<MenuRecord, RestaurantRecord> MENU__FK_MENU_RESTAURANT = Internal.createForeignKey(Menu.MENU, DSL.name("fk_menu_restaurant"), new TableField[] { Menu.MENU.RESTAURANT_ID }, Keys.RESTAURANT_PKEY, new TableField[] { Restaurant.RESTAURANT.ID }, true);
 }

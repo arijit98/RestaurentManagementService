@@ -4,10 +4,13 @@
 package com.arijit.restaurant.tables;
 
 
+import com.arijit.restaurant.Keys;
 import com.arijit.restaurant.Public;
 import com.arijit.restaurant.tables.records.MenuRecord;
 
 import java.time.LocalDateTime;
+import java.util.Arrays;
+import java.util.List;
 import java.util.UUID;
 import java.util.function.Function;
 
@@ -15,11 +18,11 @@ import javax.annotation.processing.Generated;
 
 import org.jooq.Field;
 import org.jooq.ForeignKey;
-import org.jooq.Function7;
+import org.jooq.Function8;
 import org.jooq.Name;
 import org.jooq.Record;
 import org.jooq.Records;
-import org.jooq.Row7;
+import org.jooq.Row8;
 import org.jooq.Schema;
 import org.jooq.SelectField;
 import org.jooq.Table;
@@ -93,6 +96,11 @@ public class Menu extends TableImpl<MenuRecord> {
      */
     public final TableField<MenuRecord, LocalDateTime> UPDATED_AT = createField(DSL.name("updated_at"), SQLDataType.LOCALDATETIME(3), this, "");
 
+    /**
+     * The column <code>public.menu.restaurant_id</code>.
+     */
+    public final TableField<MenuRecord, UUID> RESTAURANT_ID = createField(DSL.name("restaurant_id"), SQLDataType.UUID, this, "");
+
     private Menu(Name alias, Table<MenuRecord> aliased) {
         this(alias, aliased, null);
     }
@@ -129,6 +137,23 @@ public class Menu extends TableImpl<MenuRecord> {
     @Override
     public Schema getSchema() {
         return aliased() ? null : Public.PUBLIC;
+    }
+
+    @Override
+    public List<ForeignKey<MenuRecord, ?>> getReferences() {
+        return Arrays.asList(Keys.MENU__FK_MENU_RESTAURANT);
+    }
+
+    private transient Restaurant _restaurant;
+
+    /**
+     * Get the implicit join path to the <code>public.restaurant</code> table.
+     */
+    public Restaurant restaurant() {
+        if (_restaurant == null)
+            _restaurant = new Restaurant(this, Keys.MENU__FK_MENU_RESTAURANT);
+
+        return _restaurant;
     }
 
     @Override
@@ -171,18 +196,18 @@ public class Menu extends TableImpl<MenuRecord> {
     }
 
     // -------------------------------------------------------------------------
-    // Row7 type methods
+    // Row8 type methods
     // -------------------------------------------------------------------------
 
     @Override
-    public Row7<UUID, String, String, Double, String, LocalDateTime, LocalDateTime> fieldsRow() {
-        return (Row7) super.fieldsRow();
+    public Row8<UUID, String, String, Double, String, LocalDateTime, LocalDateTime, UUID> fieldsRow() {
+        return (Row8) super.fieldsRow();
     }
 
     /**
      * Convenience mapping calling {@link SelectField#convertFrom(Function)}.
      */
-    public <U> SelectField<U> mapping(Function7<? super UUID, ? super String, ? super String, ? super Double, ? super String, ? super LocalDateTime, ? super LocalDateTime, ? extends U> from) {
+    public <U> SelectField<U> mapping(Function8<? super UUID, ? super String, ? super String, ? super Double, ? super String, ? super LocalDateTime, ? super LocalDateTime, ? super UUID, ? extends U> from) {
         return convertFrom(Records.mapping(from));
     }
 
@@ -190,7 +215,7 @@ public class Menu extends TableImpl<MenuRecord> {
      * Convenience mapping calling {@link SelectField#convertFrom(Class,
      * Function)}.
      */
-    public <U> SelectField<U> mapping(Class<U> toType, Function7<? super UUID, ? super String, ? super String, ? super Double, ? super String, ? super LocalDateTime, ? super LocalDateTime, ? extends U> from) {
+    public <U> SelectField<U> mapping(Class<U> toType, Function8<? super UUID, ? super String, ? super String, ? super Double, ? super String, ? super LocalDateTime, ? super LocalDateTime, ? super UUID, ? extends U> from) {
         return convertFrom(toType, Records.mapping(from));
     }
 }
