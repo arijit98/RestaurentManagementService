@@ -15,8 +15,8 @@ public class MenuService {
 
     private final MenuRepository menuRepository;
 
-    public List<MenuItem> getAllMenuItems() {
-        return menuRepository.findAllAvailableMenu();
+    public List<MenuItem> getMenuItemsByRestaurantId(UUID restaurantId) {
+        return menuRepository.findAllAvailableMenu(restaurantId);
     }
 
     public MenuItem addMenuItem(MenuItem menuItem) {
@@ -29,4 +29,14 @@ public class MenuService {
         return menuRepository.findAllByIds(ids);
     }
 
+//    public List<MenuItem> getMenuItemsForRestaurant(Long restaurantId) {
+//        // Fetch menu items for a specific restaurant
+//        return menuRepository.findByRestaurantId(restaurantId);
+//    }
+//
+//    public String getRestaurantName(Long restaurantId) {
+//        return restaurantRepository.findById(restaurantId)
+//                .map(Restaurant::getName)
+//                .orElse("Restaurant");
+//    }
 }

@@ -5,6 +5,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -25,6 +26,7 @@ public class UserService {
         }
         // Create new user
         User newUser = new User();
+        newUser.setIndividualId(UUID.randomUUID());
         newUser.setPassword(passwordEncoder.encode(password));
         newUser.setName(name);
         newUser.setRoles(role);

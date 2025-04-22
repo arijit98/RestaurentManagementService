@@ -7,6 +7,7 @@ package com.arijit.restaurant;
 import com.arijit.restaurant.tables.Menu;
 import com.arijit.restaurant.tables.OrderItems;
 import com.arijit.restaurant.tables.Orders;
+import com.arijit.restaurant.tables.Restaurant;
 import com.arijit.restaurant.tables.Users;
 
 import javax.annotation.processing.Generated;
@@ -39,6 +40,11 @@ public class Tables {
      * The table <code>public.orders</code>.
      */
     public static final Orders ORDERS = Orders.ORDERS;
+
+    /**
+     * The table <code>public.restaurant</code>.
+     */
+    public static final Restaurant RESTAURANT = Restaurant.RESTAURANT;
 
     /**
      * The table <code>public.users</code>.
